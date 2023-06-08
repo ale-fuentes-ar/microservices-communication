@@ -1,5 +1,7 @@
 package ar.fuentes.ale.productapi.modules.product.model;
 
+import ar.fuentes.ale.productapi.modules.category.model.Category;
+import ar.fuentes.ale.productapi.modules.supplier.model.Supplier;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

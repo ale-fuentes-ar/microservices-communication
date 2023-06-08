@@ -1,6 +1,6 @@
-package ar.fuentes.ale.productapi.modules.product.model;
+package ar.fuentes.ale.productapi.modules.category.model;
 
-import ar.fuentes.ale.productapi.modules.product.dto.CategoryRequest;
+import ar.fuentes.ale.productapi.modules.category.dto.CategoryRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

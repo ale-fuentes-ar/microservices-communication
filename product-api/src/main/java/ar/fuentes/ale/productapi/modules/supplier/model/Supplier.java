@@ -1,6 +1,6 @@
-package ar.fuentes.ale.productapi.modules.product.model;
+package ar.fuentes.ale.productapi.modules.supplier.model;
 
-import ar.fuentes.ale.productapi.modules.product.dto.SupplierRequest;
+import ar.fuentes.ale.productapi.modules.supplier.dto.SupplierRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

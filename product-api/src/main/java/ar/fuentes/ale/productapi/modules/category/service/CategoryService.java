@@ -1,10 +1,10 @@
-package ar.fuentes.ale.productapi.modules.product.service;
+package ar.fuentes.ale.productapi.modules.category.service;
 
 import ar.fuentes.ale.productapi.config.exception.ValidationException;
-import ar.fuentes.ale.productapi.modules.product.dto.CategoryRequest;
-import ar.fuentes.ale.productapi.modules.product.dto.CategoryResponse;
-import ar.fuentes.ale.productapi.modules.product.model.Category;
-import ar.fuentes.ale.productapi.modules.product.repository.CategoryRepository;
+import ar.fuentes.ale.productapi.modules.category.dto.CategoryRequest;
+import ar.fuentes.ale.productapi.modules.category.dto.CategoryResponse;
+import ar.fuentes.ale.productapi.modules.category.model.Category;
+import ar.fuentes.ale.productapi.modules.category.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

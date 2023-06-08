@@ -1,6 +1,6 @@
-package ar.fuentes.ale.productapi.modules.product.dto;
+package ar.fuentes.ale.productapi.modules.category.dto;
 
-import ar.fuentes.ale.productapi.modules.product.model.Category;
+import ar.fuentes.ale.productapi.modules.category.model.Category;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 

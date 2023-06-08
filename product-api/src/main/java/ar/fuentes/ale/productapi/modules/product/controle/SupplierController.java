@@ -1,7 +1,7 @@
 package ar.fuentes.ale.productapi.modules.product.controle;
 
-import ar.fuentes.ale.productapi.modules.product.dto.SupplierRequest;
-import ar.fuentes.ale.productapi.modules.product.dto.SupplierResponse;
+import ar.fuentes.ale.productapi.modules.supplier.dto.SupplierRequest;
+import ar.fuentes.ale.productapi.modules.supplier.dto.SupplierResponse;
 import ar.fuentes.ale.productapi.modules.product.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

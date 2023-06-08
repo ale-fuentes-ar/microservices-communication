@@ -1,4 +1,4 @@
-package ar.fuentes.ale.productapi.modules.product.dto;
+package ar.fuentes.ale.productapi.modules.category.dto;
 
 import lombok.Data;
 

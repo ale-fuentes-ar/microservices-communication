@@ -1,8 +1,8 @@
-package ar.fuentes.ale.productapi.modules.product.controle;
+package ar.fuentes.ale.productapi.modules.category.controller;
 
-import ar.fuentes.ale.productapi.modules.product.dto.CategoryRequest;
-import ar.fuentes.ale.productapi.modules.product.dto.CategoryResponse;
-import ar.fuentes.ale.productapi.modules.product.service.CategoryService;
+import ar.fuentes.ale.productapi.modules.category.dto.CategoryRequest;
+import ar.fuentes.ale.productapi.modules.category.dto.CategoryResponse;
+import ar.fuentes.ale.productapi.modules.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
