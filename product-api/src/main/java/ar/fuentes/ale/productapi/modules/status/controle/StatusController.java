@@ -1,4 +1,4 @@
-package ar.fuentes.ale.productapi;
+package ar.fuentes.ale.productapi.modules.status.controle;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
