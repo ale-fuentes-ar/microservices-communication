@@ -8,5 +8,4 @@ public class CategoryRequest {
     private Integer id;
     private String name;
 
-
 }

@@ -24,7 +24,7 @@ public class CategoryService {
 
     private void validateCategoryNameInformed(CategoryRequest request){
         if(isEmpty(request.getName())){
-            throw new ValidationException("The category description was not informed.");
+            throw new ValidationException("The category name was not informed!");
         }
     }
 
