@@ -72,6 +72,9 @@ class UserService {
             const { email, password } = req.body;
             this.validateAccessTokenData(email, password);
             const user = await UserRepository.findByEmail(email);
+
+            this.validateUserNotFound(user);
+            
             await this.validatePassword(password, user.password);
 
             const authUser = {
