@@ -1,0 +1,10 @@
+version: "3"
+services:
+
+  sales_rabbit:
+    image: rabbitmq:management-alpine
+    container_name: sales_rabbit
+    ports:
+      - 5672:5672
+      - 25676:25676
+      - 15672:15672
