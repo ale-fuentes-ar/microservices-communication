@@ -7,7 +7,9 @@ import ar.fuentes.ale.productapi.modules.category.dto.CategoryResponse;
 import ar.fuentes.ale.productapi.modules.category.model.Category;
 import ar.fuentes.ale.productapi.modules.category.repository.CategoryRepository;
 import ar.fuentes.ale.productapi.modules.product.service.ProductService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +18,12 @@ import java.util.stream.Collectors;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
+@AllArgsConstructor( onConstructor_ = { @Lazy })
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private ProductService productService;
+    private final CategoryRepository categoryRepository;
+    @Lazy
+    private final ProductService productService;
 
     public CategoryResponse findByIdResponse(Integer id) {
 //        return categoryRepository.findById(id)

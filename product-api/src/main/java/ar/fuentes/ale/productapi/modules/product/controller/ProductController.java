@@ -1,20 +1,23 @@
-package ar.fuentes.ale.productapi.modules.product.controle;
+package ar.fuentes.ale.productapi.modules.product.controller;
 
 import ar.fuentes.ale.productapi.config.messages.SuccessResponse;
+import ar.fuentes.ale.productapi.modules.product.dto.ProductCheckStockRequest;
 import ar.fuentes.ale.productapi.modules.product.dto.ProductRequest;
 import ar.fuentes.ale.productapi.modules.product.dto.ProductResponse;
+import ar.fuentes.ale.productapi.modules.product.dto.ProductSalesResponse;
 import ar.fuentes.ale.productapi.modules.product.service.ProductService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/product")
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     @PostMapping
     public ProductResponse save(@RequestBody ProductRequest request) {
@@ -56,4 +59,13 @@ public class ProductController {
         return productService.delete(id);
     }
 
+    @PostMapping("check-stock")
+    public SuccessResponse checkProductStock(@RequestBody ProductCheckStockRequest request){
+        return productService.checkProductsStock(request);
+    }
+
+    @GetMapping("{id}/sales")
+    public ProductSalesResponse findProductSales(@PathVariable Integer id){
+        return productService.findProductSales(id);
+    }
 }

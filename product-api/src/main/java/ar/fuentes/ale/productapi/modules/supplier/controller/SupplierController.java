@@ -4,17 +4,18 @@ import ar.fuentes.ale.productapi.config.messages.SuccessResponse;
 import ar.fuentes.ale.productapi.modules.supplier.dto.SupplierRequest;
 import ar.fuentes.ale.productapi.modules.supplier.dto.SupplierResponse;
 import ar.fuentes.ale.productapi.modules.supplier.service.SupplierService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/supplier")
 public class SupplierController {
 
-    @Autowired
-    SupplierService supplierService;
+    private final SupplierService supplierService;
 
     @PostMapping
     public SupplierResponse save(@RequestBody SupplierRequest request) {
@@ -23,6 +24,7 @@ public class SupplierController {
 
     @GetMapping
     public List<SupplierResponse> findAll() {
+
         return supplierService.findAll();
     }
 

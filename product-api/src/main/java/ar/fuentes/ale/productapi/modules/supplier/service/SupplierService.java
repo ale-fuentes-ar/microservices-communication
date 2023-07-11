@@ -7,7 +7,9 @@ import ar.fuentes.ale.productapi.modules.supplier.dto.SupplierRequest;
 import ar.fuentes.ale.productapi.modules.supplier.dto.SupplierResponse;
 import ar.fuentes.ale.productapi.modules.supplier.model.Supplier;
 import ar.fuentes.ale.productapi.modules.supplier.repository.SupplierRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +18,13 @@ import java.util.stream.Collectors;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
+@AllArgsConstructor(onConstructor_ = { @Lazy })
 public class SupplierService {
 
-    @Autowired
-    SupplierRepository supplierRepository;
-    @Autowired
-    private ProductService productService;
+
+    private final SupplierRepository supplierRepository;
+    @Lazy
+    private final ProductService productService;
 
     public SupplierResponse findByIdResponse(Integer id){
         validateInformedId(id);

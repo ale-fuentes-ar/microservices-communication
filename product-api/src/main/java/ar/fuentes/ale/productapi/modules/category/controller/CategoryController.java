@@ -4,17 +4,18 @@ import ar.fuentes.ale.productapi.config.messages.SuccessResponse;
 import ar.fuentes.ale.productapi.modules.category.dto.CategoryRequest;
 import ar.fuentes.ale.productapi.modules.category.dto.CategoryResponse;
 import ar.fuentes.ale.productapi.modules.category.service.CategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/category")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @PostMapping
     public CategoryResponse save(@RequestBody CategoryRequest request) {
