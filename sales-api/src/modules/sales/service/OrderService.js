@@ -3,6 +3,7 @@ import { sendMessageToProductStockUpdateQueue } from "../../product/rabbitmq/pro
 import * as httpStatus from "../../../config/constants/httpStatus.js";
 import * as orderStatus from "../status/OrderStatus.js";
 import OrderException from "../exception/OrderException.js";
+import ProductClient from "../../product/client/ProductClient.js";
 
 class OrderService {
   async createOrder(req) {
@@ -10,18 +11,12 @@ class OrderService {
       const orderData = req.body;
       this.validateOrderData(orderData);
       const { authUser } = req;
-      let order = {
-        status: orderStatus.PENDING,
-        user: authUser,
-        createAt: new Date(),
-        updateAt: new Date(),
-        products: orderData,
-      };
+      const { authorization } = req.headers;
 
-      await this.validateProductStock(order);
-
+      let order = this.createInitialOrderData(orderData, authUser);
+      await this.validateProductStock(order, authorization);
       const createOrder = await OrderRepository.save(orderData);
-      sendMessageToProductStockUpdateQueue(createOrder.products);
+      this.sendMessage(createOrder);
 
       return {
         status: httpStatus.SUCCESS,
@@ -35,6 +30,16 @@ class OrderService {
     }
   }
 
+  createInitialOrderData(orderData, authUser) {
+    return {
+      status: orderStatus.PENDING,
+      user: authUser,
+      createAt: new Date(),
+      updateAt: new Date(),
+      products: orderData,
+    };
+  }
+
   async updateOrder(orderMessage) {
     try {
       const order = JSON.parse(orderMessage);
@@ -42,6 +47,7 @@ class OrderService {
         let existingOrder = await OrderRepository.findById(order.salesId);
         if (existingOrder && order.status !== existingOrder.status) {
           existingOrder.status = order.status;
+          existingOrder.updateAt = new Date();
           await OrderRepository.save(existingOrder);
         }
       } else {
@@ -62,14 +68,23 @@ class OrderService {
     }
   }
 
-  async validateProductStock(order) {
-    let stockisOut = false;
+  async validateProductStock(order, token) {
+    let stockisOut = await ProductClient.checkProductStock(order.products, token);
     if (stockisOut) {
       throw new OrderException(
         httpStatus.BAD_REQUEST,
         "The stock is out for the products."
       );
     }
+  }
+
+  sendMessage(createOrder){
+    const message = {
+      salesId: createOrder.id,
+      products: createOrder.products,
+    }
+
+    sendMessageToProductStockUpdateQueue(message);
   }
 }
 
