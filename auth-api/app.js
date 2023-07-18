@@ -2,12 +2,14 @@ import express  from "express";
 
 import userRouter from './src/modules/user/routes/UserRoutes.js';
 import * as db from "./src/config/db/initialData.js";
+import trancing from "./src/config/trancing.js";
 
 const app = express();
 const env = process.env;
 const PORT = env.PORT || 8080;
 
 db.createInitialData();
+app.use(trancing);
 
 //help check - only know if our service is up
 app.get('/api/status', (req, res) => {

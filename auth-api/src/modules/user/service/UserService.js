@@ -70,6 +70,13 @@ class UserService {
 
         try {
             const { email, password } = req.body;
+            const { transactionid, serviceid } = req.headers;
+            console.info(
+              `Request to POST login with data ${JSON.stringify(
+                req.body
+              )} | [ transactionID: ${transactionid} } | serviceID: ${serviceid} ]`
+            );
+
             this.validateAccessTokenData(email, password);
             const user = await UserRepository.findByEmail(email);
 
@@ -89,10 +96,18 @@ class UserService {
                 {expiresIn: "1d"}
             );
 
-            return {
-                status: httpStatus.SUCCESS,
-                accessToken,
+            
+            let response = {
+              status: httpStatus.SUCCESS,
+              accessToken,
             }
+            
+            console.info(
+              `Request to POST login with data ${JSON.stringify(
+                response
+              )} | [ transactionID: ${transactionid} } | serviceID: ${serviceid} ]`
+            );
+            return response;
         } catch (error) {
             return {
                 status: error.status ? error.status : httpStatus.INTERNAL_SERVER_ERROR,
