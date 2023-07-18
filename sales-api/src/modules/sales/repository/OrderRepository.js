@@ -21,12 +21,22 @@ class OrderRepository {
 
   async findAll() {
     try {
-      return await Order.findAll();
+      return await Order.find();
     } catch (error) {
       console.error(error.message);
       return null;
     }
   }
+  
+  async findByProductId(productId) {
+    try {
+      return await Order.find({"products.productId" : Number(productId), status: 'APPROVED'});
+    } catch (error) {
+      console.error(error.message);
+      return null;
+    }
+  }
+
 }
 
 export default new OrderRepository();

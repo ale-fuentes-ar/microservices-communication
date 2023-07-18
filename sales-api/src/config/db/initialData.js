@@ -1,4 +1,5 @@
 import Order from "../../modules/sales/model/Order.js";
+import { v4 as uuid4 } from "uuid";
 
 export async function createInitialData(){
 
@@ -23,6 +24,8 @@ export async function createInitialData(){
         status: 'APPROVED',
         createAt: new Date(),
         updateAt: new Date(),
+        transactionid: uuid4(),
+        serviceid: uuid4(),
     });
     await Order.create({
         products: [{
@@ -40,6 +43,8 @@ export async function createInitialData(){
         status: 'REJECTED',
         createAt: new Date(),
         updateAt: new Date(),
+        transactionid: uuid4(),
+        serviceid: uuid4(),
     });
 
     let initialData = await Order.find();
