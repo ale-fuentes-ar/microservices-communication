@@ -13,4 +13,5 @@ public class ProductStrockDTO {
 
     private String salesId;
     private List<ProductQuantityDTO> products;
+    private String transactionid;
 }

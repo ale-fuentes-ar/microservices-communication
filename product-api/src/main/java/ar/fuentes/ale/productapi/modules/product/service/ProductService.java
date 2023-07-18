@@ -170,7 +170,7 @@ public class ProductService {
 
         } catch (Exception ex) {
             log.error("Error while trying to update stock for message with error: {}", ex.getMessage(), ex);
-            var rejectMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.REJECTED);
+            var rejectMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.REJECTED, product.getTransactionid());
             salesConfirmationSender.sendSalesConfirmationMessage(rejectMessage);
         }
     }
@@ -190,7 +190,7 @@ public class ProductService {
 
         if (!isEmpty(productsForUpdate)) {
             productRepository.saveAll(productsForUpdate);
-            var approvedMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.APPROVED);
+            var approvedMessage = new SalesConfirmationDTO(product.getSalesId(), SalesStatus.APPROVED, product.getTransactionid());
             salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
         }
 
@@ -222,15 +222,33 @@ public class ProductService {
     }
 
     public SuccessResponse checkProductsStock(ProductCheckStockRequest request) {
-        if (isEmpty(request) || isEmpty(request.getProducts())) {
-            throw new ValidationException("The request data and products must be informed");
+
+        try {
+
+            var currentRequest = getCurrentRequest();
+            var transactionid = currentRequest.getHeader(TRANSACTION_ID);
+            var serviceid = currentRequest.getAttribute(SERVICE_ID);
+            log.info("Request POST product stock with data {} | [transactionID: {} | serviceID: {}]",
+                    new ObjectMapper().writeValueAsString(request),
+                    transactionid,
+                    serviceid);
+            if (isEmpty(request) || isEmpty(request.getProducts())) {
+                throw new ValidationException("The request data and products must be informed");
+            }
+
+            request
+                    .getProducts()
+                    .forEach(this::validateStock);
+            var response = SuccessResponse.create("The stock is ok!");
+            log.info("Response POST product stock with data {} | [transactionID: {} | serviceID: {}]",
+                    new ObjectMapper().writeValueAsString(request),
+                    transactionid,
+                    serviceid);
+
+            return response;
+        } catch (Exception ex) {
+            throw new ValidationException(ex.getMessage());
         }
-
-        request
-                .getProducts()
-                .forEach(this::validateStock);
-        return SuccessResponse.create("The stock is ok!");
-
     }
 
     private void validateStock(ProductQuantityDTO productQuantity) {
