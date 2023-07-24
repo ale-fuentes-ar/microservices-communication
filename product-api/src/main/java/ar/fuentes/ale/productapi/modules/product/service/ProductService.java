@@ -229,7 +229,7 @@ public class ProductService {
             var transactionid = currentRequest.getHeader(TRANSACTION_ID);
             var serviceid = currentRequest.getAttribute(SERVICE_ID);
             log.info("Request POST product stock with data {} | [transactionID: {} | serviceID: {}]",
-                    new ObjectMapper().writeValueAsString(request),
+                    objectMapper.writeValueAsString(request),
                     transactionid,
                     serviceid);
             if (isEmpty(request) || isEmpty(request.getProducts())) {
@@ -241,7 +241,7 @@ public class ProductService {
                     .forEach(this::validateStock);
             var response = SuccessResponse.create("The stock is ok!");
             log.info("Response POST product stock with data {} | [transactionID: {} | serviceID: {}]",
-                    new ObjectMapper().writeValueAsString(request),
+                    objectMapper.writeValueAsString(request),
                     transactionid,
                     serviceid);
 
