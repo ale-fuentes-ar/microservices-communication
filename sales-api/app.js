@@ -15,11 +15,10 @@ const PORT = env.PORT || 8082;
 const CONTAINER_ENV = "container";
 const THREE_MINUTES = 180000;
 
-startApplication();
-
 app.use(express.json());
+startApplication();
 createDataForTesting();
-getStatus();
+getStatusApi();
 app.use(tracing);
 app.use(checkToken);
 app.use(orderRoutes);
@@ -45,8 +44,6 @@ app.use(orderRoutes);
 //     }
 // });
 
-
-
 app.listen(PORT, () => {
   console.info(`Server started in port ${PORT}`);
 });
@@ -65,19 +62,27 @@ function startApplication() {
   }
 }
 
-function createDataForTesting(){
+function createDataForTesting() {
   app.get("/api/initial-data", async (req, res) => {
     await createInitialData();
-    return res.json({ message: "Data for testing created."});
+    return res.json({ message: "Data for testing created." });
   });
 }
 
-function getStatus(){
-  app.get("/api/status", async (req, res) => {
-    return res.status(200).json({
-      service: "SALES API",
-      httpStatus: 200,
-      status: "UP",
-    });
+function getStatusApi() {
+  app.get("/", async (req, res) => {
+    return res.status(200).json(getOkResponse());
   });
+
+  app.get("/api/status", async (req, res) => {
+    return res.status(200).json(getOkResponse());
+  });
+}
+
+function getOkResponse() {
+  return {
+    service: "SALES API",
+    httpStatus: 200,
+    status: "UP",
+  };
 }
