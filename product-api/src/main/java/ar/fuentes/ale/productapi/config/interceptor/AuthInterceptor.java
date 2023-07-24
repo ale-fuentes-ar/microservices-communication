@@ -25,9 +25,9 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
-                             Object handler) throws Exception {
+                             Object handler) {
 
-        if (isOptions(request)) {
+        if (isOptions(request) || isPublicUrl(request.getRequestURI())) {
             return true;
         }
 
@@ -40,6 +40,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         request.setAttribute(SERVICE_ID, UUID.randomUUID().toString());
         return true;
+    }
+
+    private static boolean isPublicUrl(String url){
+        return Urls.PROTECTED_URLS
+                .stream()
+                .noneMatch(url::contains);
     }
 
     private static boolean isOptions(HttpServletRequest request) {
