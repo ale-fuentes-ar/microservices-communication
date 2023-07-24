@@ -12,14 +12,16 @@ import tracing from "./src/config/tracing.js";
 const app = express();
 const env = process.env;
 const PORT = env.PORT || 8082;
+const CONTAINER_ENV = "container";
+const THREE_MINUTES = 180000;
 
-connectMongoDb();
-createInitialData();
-connectRabbitMq();
+startApplication();
 
 app.use(express.json());
-app.use(checkToken);
+createDataForTesting();
+getStatus();
 app.use(tracing);
+app.use(checkToken);
 app.use(orderRoutes);
 
 // only for test
@@ -43,14 +45,39 @@ app.use(orderRoutes);
 //     }
 // });
 
-app.get("/api/status", async (req, res) => {
-  return res.status(200).json({
-    service: "SALES API",
-    httpStatus: 200,
-    status: "UP",
-  });
-});
+
 
 app.listen(PORT, () => {
   console.info(`Server started in port ${PORT}`);
 });
+
+function startApplication() {
+  if (CONTAINER_ENV === env.NODE_ENV) {
+    console.info("Waiting for RabbitMQ to start please...");
+    setInterval(async () => {
+      connectMongoDb();
+      createInitialData();
+    }, THREE_MINUTES);
+  } else {
+    connectMongoDb();
+    createInitialData();
+    connectRabbitMq();
+  }
+}
+
+function createDataForTesting(){
+  app.get("/api/initial-data", async (req, res) => {
+    await createInitialData();
+    return res.json({ message: "Data for testing created."});
+  });
+}
+
+function getStatus(){
+  app.get("/api/status", async (req, res) => {
+    return res.status(200).json({
+      service: "SALES API",
+      httpStatus: 200,
+      status: "UP",
+    });
+  });
+}

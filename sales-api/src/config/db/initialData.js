@@ -3,7 +3,11 @@ import { v4 as uuid4 } from "uuid";
 
 export async function createInitialData(){
 
-    await Order.collection.drop();
+    let existingData = await Order.findOne();
+    if(existingData){
+        console.info("Remove existing data...");
+        await Order.collection.drop();
+    }
 
     await Order.create({
         products: [{
