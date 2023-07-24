@@ -6,3 +6,6 @@ yarn-error.log*
 
 # libs
 node_modules
+
+# packages
+*.zip
